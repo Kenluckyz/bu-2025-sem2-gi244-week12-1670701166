@@ -43,11 +43,23 @@ public class Target : MonoBehaviour, IPointerClickHandler
     // NOTE: OnPointerClick is part of IPointerClickHandler interface
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("Clicked");
+        Destroy(this.gameObject);
 
+        var gm =FindAnyObjectByType<GameManager>();
+        gm.UpdateScore(point);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Sensor"))
+        {
+            var gm = FindAnyObjectByType<GameManager>();
+            if (gm == null) return;
+            if (CompareTag("Bad")) return;
+            gm.UpdateScore(-point);
+            Destroy(this.gameObject);
 
+        }
     }
 }
